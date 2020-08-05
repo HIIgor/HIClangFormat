@@ -8,8 +8,8 @@
 devpods=`cat Podfile | grep pod_one | awk '{print $2}'`
 
 # 壳工程git目录
-parent_git_dir=`pwd`/DiDriver
-
+parent_git_dir=$( cd "$(dirname $(dirname $(dirname "${BASH_SOURCE[0]}")) )" && pwd )
+echo $parent_git_dir
 for element in ${devpods[@]}; do
 
 	#组件
@@ -17,9 +17,9 @@ for element in ${devpods[@]}; do
 
 	if [[ -e $githook_path ]]; then
 
-		precommit=$githook_path/pre-commit
+		precommit="$githook_path/pre-commit"
 
-		cp -f ${parent_git_dir}/format/shell/format-pre-commit.sh $precommit && chmod 777 $precommit
+		cp -f ${parent_git_dir}/format/shell/git_pre_commit.sh $precommit && chmod 777 $precommit
 
 		#获取行号
 		#repo_line=`grep -n "current_repo_path=" $precommit | cut -d ":" -f 1`
