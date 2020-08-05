@@ -11,14 +11,14 @@ DSClangFormatter 是一个iOS代码风格检测工具，在git提交代码是会
 
 ## How
 
-### Usage
+#### Usage
 1. clone 本仓库到本地
 2. 在Xcode-Build Phases添加一个脚本位，可以放在最上面的位置（基于现在的壳工程以及子pod的结构）
 3. 在脚本位插入脚本间接调用本项目中format/shell/xcode_pre_build.sh
 参考下图：
 4. 将项目跑起来，之后可以在各个子pod中提交代码了
 
-### Implementation
+#### Implementation
 
 本项目，基于SpaceCommander,做了大量的定制话，最终的检测代码也是通过clang-format插件.
 
