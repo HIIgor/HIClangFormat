@@ -28,7 +28,7 @@ for element in ${devpods[@]}; do
 
 		#替换第3行
 		sed -i '' '3c\
-		'current_repo_path=${parent_git_dir}'	
+		'current_repo_path=$( cd "$(dirname ${format_dir})" && pwd )'
 		' $precommit
 	else
 		echo "$githook_path 不存在"
