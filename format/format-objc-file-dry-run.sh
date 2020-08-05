@@ -5,7 +5,6 @@
 
 export CDPATH=""
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-source "$DIR"/lib/common-lib.sh
 
 # "#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file.
 # Read the first line and trim it.
@@ -19,7 +18,7 @@ python "$DIR"/custom/LiteralSymbolSpacer.py | \
 python "$DIR"/custom/InlineConstructorOnSingleLine.py | \
 python "$DIR"/custom/MacroSemicolonAppender.py | \
 python "$DIR"/custom/DoubleNewlineInserter.py | \
-"$DIR"/bin/clang-format-3.8-custom -style=$(clang_format_file) | \
+"$DIR"/bin/clang-format-3.8-custom -style=file | \
 python "$DIR"/custom/GenericCategoryLinebreakIndentation.py | \
 python "$DIR"/custom/ParameterAfterBlockNewline.py | \
 python "$DIR"/custom/HasIncludeSpaceRemover.py | \

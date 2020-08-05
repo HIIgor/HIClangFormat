@@ -5,7 +5,6 @@
 
 export CDPATH=""
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-source "$DIR"/lib/common-lib.sh
 
 # removed by xiangyaguo，.clang-format has been placed in the format dir， or you can custom .clang-format in every single dir to check different style
 # if [ ! -e ".clang-format" ]; then
@@ -31,7 +30,7 @@ python "$DIR"/custom/MacroSemicolonAppender.py "$1"
 python "$DIR"/custom/DoubleNewlineInserter.py "$1"
 
 # Run clang-format
-"$DIR"/bin/clang-format-3.8-custom -i -style=$(clang_format_file) "$1" ;
+"$DIR"/bin/clang-format-3.8-custom -i -style=file "$1" ;
 # Fix an issue with clang-format getting confused by categories with generic expressions.
 python "$DIR"/custom/GenericCategoryLinebreakIndentation.py "$1"
 # Fix an issue with clang-format breaking up a lone parameter onto a newline after a block literal argument.

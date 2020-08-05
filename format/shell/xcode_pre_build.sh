@@ -8,8 +8,10 @@
 devpods=`cat Podfile | grep pod_one | awk '{print $2}'`
 
 # 壳工程git目录
-parent_git_dir=$( cd "$(dirname $(dirname $(dirname "${BASH_SOURCE[0]}")) )" && pwd )
-echo $parent_git_dir
+format_dir=$( cd "$(dirname $(dirname "${BASH_SOURCE[0]}") )" && pwd )
+
+cp -f "${format_dir}/.clang-format" ~
+
 for element in ${devpods[@]}; do
 
 	#组件
@@ -19,7 +21,7 @@ for element in ${devpods[@]}; do
 
 		precommit="$githook_path/pre-commit"
 
-		cp -f ${parent_git_dir}/format/shell/git_pre_commit.sh $precommit && chmod 777 $precommit
+		cp -f ${format_dir}/shell/git_pre_commit.sh $precommit && chmod 777 $precommit
 
 		#获取行号
 		#repo_line=`grep -n "current_repo_path=" $precommit | cut -d ":" -f 1`
