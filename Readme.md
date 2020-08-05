@@ -20,7 +20,7 @@ DSClangFormatter 是一个iOS代码风格检测工具，在git提交代码是会
 
 #### Implementation
 
-本项目，基于SpaceCommander,做了大量的定制话，最终的检测代码也是通过clang-format插件.
+本项目，基于SpaceCommander,做了大量的定制化，最终的检测代码也是通过clang-format插件，通过.clang-format配置文件进行检测.
 
 
 ## Other
@@ -31,3 +31,5 @@ DSClangFormatter 是一个iOS代码风格检测工具，在git提交代码是会
 1. 代码风格自定制：通过.clang-format 配置，本项目下有.clang-format 如果各个子pod中需要差异化自己的代码风格，可以添加自己.clang-format到各自的目录下
 2. formatting-directory: 各个子pod通过改文件配置.formatting-directory 定制需要style check的目录
 3. formatting-directory-ignore: 道理同上，配置各自的忽略style check的目录
+
+.clang-format中的各个配置项可以在文件中查看。
