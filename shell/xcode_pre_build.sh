@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+#pre build shell
+
+
+#开发模式的pod库
+devpods=`cat Podfile | grep pod_one | awk '{print $2}'`
+
+# 壳工程git目录
+parent_git_dir=`pwd`/DiDriver
+
+for element in ${devpods[@]}; do
+
+	#组件
+	githook_path=`pwd`/${element:1:${#element}-3}/.git/hooks
+
+	if [[ -e $githook_path ]]; then
+
+		precommit=$githook_path/pre-commit
+
+		cp -f ${parent_git_dir}/format/shell/format-pre-commit.sh $precommit && chmod 777 $precommit
+
+		#获取行号
+		#repo_line=`grep -n "current_repo_path=" $precommit | cut -d ":" -f 1`
+
+		#替换第3行
+		sed -i '' '3c\
+		'current_repo_path=${parent_git_dir}'	
+		' $precommit
+	else
+		echo "$githook_path 不存在"
+	fi
+done
+
