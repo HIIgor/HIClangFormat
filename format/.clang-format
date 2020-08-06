@@ -4,7 +4,7 @@ IndentNestedBlocks: false
 AllowNewlineBeforeBlockParameter: false
 
 Language:        Cpp
-# BasedOnStyle:  Google
+BasedOnStyle:  LLVM
 
 #类的访问修饰关键字(private,public,protected···)缩进
 AccessModifierOffset: -1
