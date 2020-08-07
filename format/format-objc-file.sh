@@ -12,8 +12,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # 	echo "Also, formatting scripts should be run from the repo's top level dir."
 # 	exit 1
 # fi
+diff_file=$1
+changed_lines=$(git diff --cached "$diff_file" | grep -E '(^@@.*\+(\d+),(\d+))' | awk -F '[-+, ]' '{print  $3":"$6+$7 }')
 
-echo $clang_format
 
 # "#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file.
 # Read the first line and trim it.
@@ -27,10 +28,13 @@ python "$DIR"/custom/InlineConstructorOnSingleLine.py "$1"
 # Add a semicolon at the end of simple macros
 python "$DIR"/custom/MacroSemicolonAppender.py "$1"
 # Add an extra newline before @implementation and @interface
-python "$DIR"/custom/DoubleNewlineInserter.py "$1"
+# python "$DIR"/custom/DoubleNewlineInserter.py "$1"
 
 # Run clang-format
-"$DIR"/bin/clang-format-3.8-custom -i -style=file "$1" ;
+for line in ${changed_lines[*]}; do
+  	"$DIR"/bin/clang-format-3.8-custom -i -style=file -lines=$line "$1" ;
+done
+
 # Fix an issue with clang-format getting confused by categories with generic expressions.
 python "$DIR"/custom/GenericCategoryLinebreakIndentation.py "$1"
 # Fix an issue with clang-format breaking up a lone parameter onto a newline after a block literal argument.
