@@ -19,12 +19,12 @@ objc_files=$(objc_files_to_format "$1")
 function format_objc() {
   success=0
   for file in $objc_files; do
-    # the changed lines of file
-    changed_lines=$(git diff --cached "$file" | grep -E '(^@@.*\+(\d+),(\d+))' | awk -F '[-+, ]' '{print  $3":"$6+$7 }')
+    # the diff lines of file
+    diff_lines=$(git diff --cached "$file" | grep -E '(^@@.*\+(\d+),(\d+))' | awk -F '[-+, ]' '{print  $3":"$6+$7 }')
     
-    difference=$("$DIR"/format-objc-file-dry-run.sh "$file" "${changed_lines[*]}" | diff "$file" - | wc -l)
+    difference=$("$DIR"/format-objc-file-dry-run.sh "$file" "${diff_lines[*]}" | diff "$file" - | wc -l)
     echo "The code that doesn't conform to the style is as follows:"
-    echo $("$DIR"/format-objc-file-dry-run.sh "$file" "${changed_lines[*]}" | diff "$file" - )
+    echo $("$DIR"/format-objc-file-dry-run.sh "$file" "${diff_lines[*]}" | diff "$file" - )
     if [ $difference -gt 0 ]; then
         if [ $success -eq 0 ]; then
             echo -e "🚸 Format and stage individual files:"
