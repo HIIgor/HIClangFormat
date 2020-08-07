@@ -52,3 +52,13 @@ function clang_format_file() {
 		echo $DIR/.clang_format
 	fi
 }
+
+ function changed_lines_of_file() {
+ 	file=$1
+ 	if [[ -e $file ]]; then
+ 		changed_lines=$(git diff --cached "$file" | grep -E '(^@@.*\+(\d+),(\d+))' | awk -F '[-+, ]' '{print  $3":"$6+$7 }')
+	    echo $changed_lines
+	else
+		echo "$file does not exist!"
+ 	fi
+ }
