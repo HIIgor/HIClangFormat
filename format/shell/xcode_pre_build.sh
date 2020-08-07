@@ -5,7 +5,7 @@
 
 
 #开发模式的pod库
-devpods=`cat Podfile | grep pod_one | awk '{print $2}'`
+devpods=`cat podfile | grep pod_one | awk -F "[\ \',\\/]" '{print $9}'`
 
 # 壳工程git目录
 format_dir=$( cd "$(dirname $(dirname "${BASH_SOURCE[0]}") )" && pwd )
@@ -13,9 +13,8 @@ format_dir=$( cd "$(dirname $(dirname "${BASH_SOURCE[0]}") )" && pwd )
 cp -f "${format_dir}/.clang-format" ~
 
 for element in ${devpods[@]}; do
-
 	#组件
-	githook_path=`pwd`/${element:1:${#element}-3}/.git/hooks
+	githook_path=`pwd`/${element}/.git/hooks
 
 	if [[ -e $githook_path ]]; then
 
@@ -31,7 +30,7 @@ for element in ${devpods[@]}; do
 		'current_repo_path=$( cd "$(dirname ${format_dir})" && pwd )'
 		' $precommit
 	else
-		echo "$githook_path 不存在"
+		echo "$githook_path does not exist"
 	fi
 done
 
