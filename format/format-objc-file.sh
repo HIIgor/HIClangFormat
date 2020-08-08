@@ -6,14 +6,15 @@
 export CDPATH=""
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+source "$DIR"/lib/common-lib.sh
 # removed by xiangyaguo，.clang-format has been placed in the format dir， or you can custom .clang-format in every single dir to check different style
 # if [ ! -e ".clang-format" ]; then
 # 	echo "Couldn't find .clang-format file, unable to format files. Please setup this repo by running the setup-repo.sh script from your repo's top level."
 # 	echo "Also, formatting scripts should be run from the repo's top level dir."
 # 	exit 1
 # fi
-diff_file=$1
-changed_lines=$(git diff --cached "$diff_file" | grep -E '(^@@.*\+(\d+),(\d+))' | awk -F '[-+, ]' '{print  $3":"$6+$7 }')
+
+changed_lines=$(changed_lines_of_file "$1")
 
 
 # "#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file.
