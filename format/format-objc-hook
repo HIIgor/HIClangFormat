@@ -29,7 +29,6 @@ function format_objc() {
 
     if [[ $diff_line_count -gt 0 ]] && [[ ${#diff_code} -gt 0 ]]; then
         if [ $success -eq 0 ]; then
-            # echo "The code that doesn't conform to the style is as follows:"
             echo -e "🚸 Format and stage individual files:"
         fi
     	# This is what the dev can run to fixup an individual file
@@ -42,6 +41,7 @@ function format_objc() {
   done
   # print detail info of files to be formatted
   if [[ ${#all_diff_code[@]} -gt 0 ]]; then
+    echo -e "\nThe code that doesn't conform to the style is as follows:"
     for code in ${all_diff_code[@]}; do
       echo "$code"
     done
