@@ -16,24 +16,26 @@ source "$DIR"/lib/common-lib.sh
 objc_files=$(objc_files_to_format "$1")
 [ -z "$objc_files" ] && exit 0
 
+
+
 function format_objc() {
   success=0
   all_diff_code=
   for file in $objc_files; do
     # the diff line of file, it is a array type e.g. (1:5 7:19 55:99)
     diff_lines=$(changed_lines_of_file $file)
+
     diff_code=$("$DIR"/format-objc-file-dry-run.sh "$file" "${diff_lines[*]}" | diff "$file" -)
 
     diff_line_count=$(echo $diff_code | wc -l)
 
-    if [[ $diff_line_count -gt 0 ]] && [[ ${#diff_code} -gt 0 ]]; then
-        if [ $success -eq 0 ]; then
-            echo -e "🚸 Format and stage individual files:"
-        fi
+    if [[ $diff_line_count -gt 0 ]] && [[ ${#diff_code} -gt 0 ]] && [[ ! $(echo $diff_code) =~ "<      --- > " ]]; then
+      if [ $success -eq 0 ]; then
+        echo -e "🚸 Format and stage individual files:"
+      fi
     	# This is what the dev can run to fixup an individual file
     	echo "\"$DIR\"/format-objc-file.sh '$file' $command && git add '$file';"
-
-
+      
       all_diff_code[${#all_diff_code[@]}]=$file" "$(echo $diff_code)
     	success=1
     fi
