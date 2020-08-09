@@ -29,6 +29,7 @@ function format_objc() {
 
     diff_line_count=$(echo $diff_code | wc -l)
 
+    # diff_code contains "<      --- > " indicates exception of llvm or other bugs 
     if [[ $diff_line_count -gt 0 ]] && [[ ${#diff_code} -gt 0 ]] && [[ ! $(echo $diff_code) =~ "<      --- > " ]]; then
       if [ $success -eq 0 ]; then
         echo -e "🚸 Format and stage individual files:"
