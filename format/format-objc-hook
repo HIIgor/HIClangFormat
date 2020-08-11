@@ -20,7 +20,7 @@ objc_files=$(objc_files_to_format "$1")
 
 function format_objc() {
   success=0
-  all_diff_code=
+  all_diff_code=()
   for file in $objc_files; do
     # the diff line of file, it is a array type e.g. (1:5 7:19 55:99)
     diff_lines=$(changed_lines_of_file $file)
@@ -41,6 +41,7 @@ function format_objc() {
     	success=1
     fi
   done
+  
   # print detail info of files to be formatted
   if [[ ${#all_diff_code[@]} -gt 0 ]]; then
     echo -e "\nThe code that doesn't conform to the style is as follows:"
