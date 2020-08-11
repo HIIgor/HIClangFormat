@@ -29,14 +29,16 @@ function format_objc() {
 
     diff_line_count=$(echo $diff_code | wc -l)
 
-    # diff_code contains "<      --- > " indicates exception of llvm or other bugs 
-    if [[ $diff_line_count -gt 0 ]] && [[ ${#diff_code} -gt 0 ]] && [[ ! $(echo $diff_code) =~ "<      --- > " ]]; then
+    pattern='^[0-9]{2}c[0-9]{2}[[:space:]]\<[[:space:]]+\-+[[:space:]]\>[[:space:]]$'
+
+    # diff_code contains only "12c15 <      --- > "  indicates exception of llvm or other bugs 
+    if [[ $diff_line_count -gt 0 ]] && [[ ${#diff_code} -gt 0 ]] && [[ ! $(echo $diff_code) =~ $pattern ]]; then
       if [ $success -eq 0 ]; then
         echo -e "🚸 Format and stage individual files:"
       fi
     	# This is what the dev can run to fixup an individual file
     	echo "\"$DIR\"/format-objc-file.sh '$file' $command && git add '$file';"
-      
+
       all_diff_code[${#all_diff_code[@]}]=$file" "$(echo $diff_code)
     	success=1
     fi
