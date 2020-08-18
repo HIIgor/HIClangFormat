@@ -16,15 +16,19 @@ fi
 file=$1
 changed_lines=$2
 
-
 commands[0]="| python $DIR/custom/LiteralSymbolSpacer.py"
 commands[${#commands[@]}]="| python \"$DIR\"/custom/InlineConstructorOnSingleLine.py"
 commands[${#commands[@]}]="| python \"$DIR\"/custom/MacroSemicolonAppender.py"
 
+if [[ ${#changed_lines} -gt 0 ]]; then
+	for line in ${changed_lines[@]}; do
+		commands[${#commands[@]}]="| $DIR/bin/clang-format-3.8-custom -style=file -lines=$line"
+	done
+else
+	commands[${#commands[@]}]="| $DIR/bin/clang-format-3.8-custom -style=file"
+fi
 
-for line in ${changed_lines[@]}; do
-	commands[${#commands[@]}]="| $DIR/bin/clang-format-3.8-custom -style=file -lines=$line"
-done
+
 
 commands[${#commands[@]}]="| python \"$DIR\"/custom/GenericCategoryLinebreakIndentation.py"
 commands[${#commands[@]}]="| python \"$DIR\"/custom/ParameterAfterBlockNewline.py"

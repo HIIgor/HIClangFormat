@@ -62,3 +62,17 @@ function clang_format_file() {
 		echo "$file does not exist!"
  	fi
  }
+
+ function is_new_file() {
+ 	file=$1
+ 	if [[ -e $file ]]; then
+ 		pattern_result=$(git diff --cached $file | grep -E '(^@@[[:space:]]\-0,0[[:space:]]\+(\d+),(\d+))')
+ 		if [[ ${#pattern_result} -gt 0 ]]; then
+ 			echo 0
+		else
+			echo 1
+ 		fi
+ 	else
+ 		echo 1
+ 	fi
+ }

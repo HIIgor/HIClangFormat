@@ -14,7 +14,7 @@ source "$DIR"/lib/common-lib.sh
 # 	exit 1
 # fi
 
-changed_lines=$(changed_lines_of_file "$1")
+
 
 
 # "#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file.
@@ -32,9 +32,14 @@ python "$DIR"/custom/MacroSemicolonAppender.py "$1"
 # python "$DIR"/custom/DoubleNewlineInserter.py "$1"
 
 # Run clang-format
-for line in ${changed_lines[*]}; do
-  	"$DIR"/bin/clang-format-3.8-custom -i -style=file -lines=$line "$1" ;
-done
+if [[ $(is_new_file "$1") -eq 0 ]]; then
+	"$DIR"/bin/clang-format-3.8-custom -i -style=file "$1";
+else 
+	changed_lines=$(changed_lines_of_file "$1")
+	for line in ${changed_lines[*]}; do
+	  	"$DIR"/bin/clang-format-3.8-custom -i -style=file -lines=$line "$1" ;
+	done
+fi
 
 # Fix an issue with clang-format getting confused by categories with generic expressions.
 python "$DIR"/custom/GenericCategoryLinebreakIndentation.py "$1"
