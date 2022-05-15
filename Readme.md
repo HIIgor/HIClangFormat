@@ -1,8 +1,8 @@
-DSClangFormatter
+HClangFormatter
 
 ## What 
 
-DSClangFormatter 是一个iOS代码风格检测工具，在git提交代码是会触发检测的脚本，若未通过则禁止提交代码.
+HIClangFormatter 是一个iOS代码风格检测工具，在git提交代码是会触发检测的脚本，若未通过则禁止提交代码.
 
 
 ## Why
